@@ -1,0 +1,11 @@
+
+- show UI with category tabs and loaders
+
+- load feed - on error: alert with close | retry
+
+- download images async group by group to cache folder; delete old images
+
+- show images from disk (thumbnail?) when loaded, always in same order as in feed
+
+- log errors to file
+

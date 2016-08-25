@@ -54,7 +54,7 @@ class WallpaperCache:
 
         try:
             src = Gio.File.new_for_uri(self.item["url"])
-            src.read_async(GLib.PRIORITY_LOW, None, self.open_remote_wallpaper, ["123"])
+            src.read_async(GLib.PRIORITY_DEFAULT, None, self.open_remote_wallpaper, ["123"])
 
         except Exception as e:
             logger.warn("Error: %s", e)

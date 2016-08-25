@@ -1,5 +1,6 @@
-import urllib2
+# import urllib2
 import json
+from gi.repository import Gio, GLib
 
 
 class Bing():
@@ -10,16 +11,30 @@ class Bing():
 
     data = {}
 
-    def load(self):
+    def load(self, callback):
+        self.callback = callback
+
         for category in self.keys:
             url = self.url_pattern % category
-            response = urllib2.urlopen(url)
-            data = json.load(response)
 
-            self.data[category] = data
+            # response = urllib2.urlopen(url)     # make async?
+            # data = json.load(response)
+            # self.data[category] = data
 
-        print("Bing data loaded")
-        return True
+            src = Gio.File.new_for_uri(url)
+            src.load_contents_async(None, self._on_feed_read, category)
+
+        # print("Bing data loaded")
+        # return True
+
+    def _on_feed_read(self, src, result, category):
+        data = src.load_contents_finish(result)[1]
+        # print(data)
+        self.data[category] = json.loads(data)
+
+        if len(self.data) == 4:
+            print("Bing data loaded")
+            self.callback()
 
     def get_data(self):
         return self.data

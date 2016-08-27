@@ -1,7 +1,7 @@
 from gi.repository import Gtk, GdkPixbuf, Gio
 from bing import *
 from cache import *
-# from utils import set_background
+from utils import set_background
 
 
 class MainWindow(Gtk.Window):
@@ -94,10 +94,13 @@ class MainWindow(Gtk.Window):
         self.pages[self.current_group_index].add(self.iconviews[self.current_group_index])
         self.pages[self.current_group_index].show_all()
 
-        # goto next group if needed
         self.current_group_index += 1
+
+        # goto next group if needed
         if self.current_group_index < 4:
             self.load_current_group()
+        else:
+            cache_clean(self.bing.get_ids())
 
     def _item_activated(self, iconview, path, group_index):
         # liststore = iconview.get_model()
@@ -105,7 +108,7 @@ class MainWindow(Gtk.Window):
 
         wallpaper_index = path[0]
         # print(self.wallpaper_paths[group_index][wallpaper_index])
-        # set_background(self.wallpaper_paths[group_index][wallpaper_index])    # working!
+        set_background(self.wallpaper_paths[group_index][wallpaper_index])    # working!
 
     @staticmethod
     def clear_all(container):

@@ -172,5 +172,11 @@ class ThumbnailCache:
 
 
 def cache_clean(leave):
-    # @todo: list folder, delete all except passed ids
-    return
+    # list cache folder, delete all except passed ids
+    import glob
+    for path in glob.glob(os.path.join(CACHEPATH, "*.jpg")):
+        basename = os.path.basename(path)
+        if int(basename.split(".")[0]) in leave:
+            continue
+        # print path
+        os.remove(path)
